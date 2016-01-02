@@ -1,0 +1,9 @@
+config = {
+
+# You get the IFTTT key when you enalbe the Maker channel. 
+        'ifttt-key':'YOUR IFTTT HERE', 
+
+# Generate anything you want and use it to validate requests. Incoming requests
+# need to conatin a field "token":
+        'user-token':'YOUR TOKEN HERE'
+        }
