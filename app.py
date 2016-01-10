@@ -20,26 +20,31 @@ def hello():
 
 @app.route("/set",methods=['POST'])
 def set_values():
-    response = request.get_json()
-    if response['token'] != config['user-token']:
-        return 'Invalid user token'
-    else:
-        print(response['value'])
-        runCmd(response['value'])
-        return 'True'
+    try:
+        response = request.get_json()
+        if response['token'] != config['user-token']:
+            return 'Invalid user token'
+        else:
+            print(response['value'])
+            msg = runCmd(response['value'])
+        return msg
+    except Exception:
+        return 'an error occurred'
 
 def runCmd(command):
     command = command.lower().split(' ')
     if command[0] in commands:
-        commands[command[0]]()
+        status = commands[command[0]]()
     elif command[0] == 'rgb' and len(command) == 4:
-        light.setColor(command[1:])
+        status = light.setColor(command[1:])
     else:
-        light.setColor(command[0])
+        status = light.setColor(command[0])
+    print(status)
+    return status+'\n'
 
 def showHelp():
-    print('showHelp func')
-    return 'helptext'
+    return 'Commands are "HELP"; "STATUS"; "STOP", or a color name as either\
+ "RGB 255 255 255"; "#09fFfF"; or a CSS color keyword, "white".'
 
 def stopLED():
     light.stop()
@@ -48,10 +53,14 @@ def stopLED():
 def showStatus():
     return 'status page'
 
+def showAbout():
+    return 'http://github.com/begillespie/pilight'
+
 commands = {
         'help':showHelp,
         'stop':stopLED,
-        'status':showStatus
+        'status':showStatus,
+        'about':showAbout
         }
 
 if __name__ == "__main__":

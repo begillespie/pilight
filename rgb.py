@@ -37,22 +37,23 @@ class RGB:
         '#09afAF' or CSS color keyword: 'blue' and shows it.'''
         try:
             if isinstance(color, list):
-                self.setRGB(int(color[0]), int(color[1]), int(color[2]))
+                msg = self.setRGB(int(color[0]), int(color[1]), int(color[2]))
             elif color.lower() in self.cssColors:
                 rgbV = self.hextoRGB(self.cssColors[color.lower()])
                 if rgbV:
-                    self.setRGB(rgbV['r'], rgbV['g'], rgbV['b'])
+                    msg = self.setRGB(rgbV['r'], rgbV['g'], rgbV['b'])
             elif color[0] == '#':
                 rgbV = self.hextoRGB(color)
                 if rgbV:
-                    self.setRGB(rgbV['r'], rgbV['g'], rgbV['b'])
+                    msg = self.setRGB(rgbV['r'], rgbV['g'], rgbV['b'])
             else:
                 print('invalid input')
-                return False
+                msg = 'invalid input'
+            return msg
 
         except (TypeError, ValueError) as e:
             print('Invalid input', e)
-            return False
+            return 'input error'
 
     def limitValue(self, value, low, high):
         '''Constrains value between low and high'''
@@ -73,6 +74,7 @@ class RGB:
             self.pi.set_PWM_dutycycle(self.pins['red'], self.limitValue(rV, 0, 255))
             self.pi.set_PWM_dutycycle(self.pins['green'], self.limitValue(gV, 0, 255))
             self.pi.set_PWM_dutycycle(self.pins['blue'], self.limitValue(bV, 0, 255))
+            return 'Set RGB('+str(rV)+','+str(gV)+','+str(bV)+')'
 
         except TypeError:
             print('RGB values must be integers')
@@ -101,6 +103,7 @@ class RGB:
             self.pi.set_PWM_dutycycle(self.pins[pin], 0)
 
         self.pi.stop()
+        return 'stopped'
 
     # Hex definitions for the 147 W3C CSS colors
     cssColors={
