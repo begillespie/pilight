@@ -58,7 +58,7 @@ def showAbout():
 
 commands = {
         'help':showHelp,
-        'stop':stopLED,
+        'off':stopLED,
         'status':showStatus,
         'about':showAbout
         }
