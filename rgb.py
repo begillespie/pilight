@@ -71,10 +71,10 @@ class RGB:
     def setRGB(self, rV, gV, bV):
         '''Takes RGB values as integers from 0 - 255'''
         try:
-            self.pi.set_PWM_dutycycle(self.pins['red'], self.limitValue(rV, 0, 255))
-            self.pi.set_PWM_dutycycle(self.pins['green'], self.limitValue(gV, 0, 255))
-            self.pi.set_PWM_dutycycle(self.pins['blue'], self.limitValue(bV, 0, 255))
-            return 'Set RGB('+str(rV)+','+str(gV)+','+str(bV)+')'
+            self.pi.set_PWM_dutycycle(self.pins['red'], self.gamma[self.limitValue(rV, 0, 255)])
+            self.pi.set_PWM_dutycycle(self.pins['green'], self.gamma[self.limitValue(gV, 0, 255)])
+            self.pi.set_PWM_dutycycle(self.pins['blue'], self.gamma[self.limitValue(bV, 0, 255)])
+            return 'Set RGB ({}, {}, {})'.format(rV, gV, bV)
 
         except TypeError:
             print('RGB values must be integers')
